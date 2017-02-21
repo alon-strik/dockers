@@ -1,0 +1,97 @@
+# list of images
+docker images
+
+# list all containers
+docker ps (-a) (-l)
+
+docker pull ubuntu
+docker run -it ubuntu bash
+   # apt update
+   # apt install apache2
+   # apt install mysql-server mysql-client
+
+
+## Start new container interactive
+docker run -it alonstrik/apach2:webserver /bin/bash
+
+## Detach from interactive container
+^P^Q
+
+## delete image
+docker rmi <image> -f
+
+## delete untaged images
+docker rmi $(docker images -a | grep "^<none>" | awk '{print $3}') -f
+
+## delete containers
+docker rm <containerId> -f
+
+## remove all stopped containers
+docker rm $(docker ps -a -q)
+
+## attach to container
+docker attach <container ID>
+
+## Get docker image info
+docker inspect <container ID>
+
+## Find container ip
+docker inspect -f '{{ .NetworkSettings.IPAddress }}'  SHORT_CONTAINER_ID-or-CONTAINER_NAME
+docker inspect -f '{{.Id}}'                           SHORT_CONTAINER_ID-or-CONTAINER_NAME
+# for MYSQL
+docker inspect -f '{{ .NetworkSettings.Networks.lms_default.IPAddress }}' CONTAINER_NAME
+
+######################################
+## create image from container
+docker run --name hw_container ubuntu:latest touch /HelloWorld
+
+# Commit the changes you made in that container to a new image
+docker commit hw_container hw_image
+
+# Remove the changed container
+docker rm -vf hw_container
+######################################
+
+
+COPY FILES:
+## Copy files to docker
+docker cp dist.tar 94361e96cf58:/var/www/dist.tar
+
+
+NETWORK:
+
+## get docker port
+docker port 1eb6ebd70ef4 80
+
+## Redirect ports
+docker run -d -p 11111:80 nginx
+
+## Network info here:
+https://docs.docker.com/engine/userguide/networking/
+
+## Network:
+docker network ls
+
+## create network
+docker network create <network name>
+
+## Placing containers on a network
+docker run -dti --name t800 --net <network name> <image name> sh
+
+# ip link set br100 down
+# brctl delbr br100
+
+sudo vi  /etc/network/interfaces
+auto docker0
+iface docker0 inet static
+        address 192.168.2.1
+        netmask 255.255.255.0
+        bridge_ports dummy0
+        bridge_stp off
+        bridge_fd 0
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+docker run -dP jpetazzo/namer:master
+docker ps

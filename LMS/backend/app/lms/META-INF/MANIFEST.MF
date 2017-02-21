@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: Nova-Lomus BE Server API War
+Implementation-Version: 3.0.3.1-SNAPSHOT-781
+Implementation-Vendor-Id: com.lumos.lms
+Built-By: jenkins
+Build-Jdk: 1.7.0_85
+Created-By: Apache Maven 3.3.3
+Archiver-Version: Plexus Archiver
+

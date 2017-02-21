@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1" metadata-complete="true">
+
+    <distributable/>
+
+
+    <!-- Listeners -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>com.lumos.web.common.ApiServletContextListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            WEB-INF/webContext.xml
+        </param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>service-name</param-name>
+        <param-value>lms-core</param-value>
+    </context-param>
+
+    <!-- -->
+    <servlet>
+        <servlet-name>lumos-api</servlet-name>
+        <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+
+        <init-param>
+            <param-name>includedPackages</param-name>
+            <param-value>
+                com.lumos.api
+            </param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>
+                com.lumos.api
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+            <param-value>true</param-value>
+        </init-param>
+
+        <!-- request filters: logging, version and media type negotiation filter -->
+        <init-param>
+            <param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
+            <param-value>
+                com.lumos.web.common.filter.ApiTracingFilter
+                com.lumos.web.common.filter.AttachContextWithMdcFilter
+                com.lumos.web.common.filter.RequestMediaTypeFilter
+                com.lumos.web.common.filter.AuthenticationFilter
+            </param-value>
+        </init-param>
+
+        <!-- configure jersey optional request tracing -->
+        <init-param>
+            <param-name>com.sun.jersey.config.feature.TracePerRequest</param-name>
+            <param-value>true</param-value>
+        </init-param>
+
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>lumos-api</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+</web-app>

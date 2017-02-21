@@ -1,0 +1,2 @@
+## to restart apache in containes
+docker kill --signal="USR1" <yourcontainer_name>

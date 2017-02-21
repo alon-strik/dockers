@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="classpath:blogic-applicationContext.xml"/>
+    <import resource="classpath:api-applicationContext.xml"/>
+
+
+    <bean id="authentication-filter"
+          class="com.lumos.web.common.filter.AuthenticationFilter" scope="singleton">
+        <property name="excludes">
+            <list value-type="com.lumos.web.common.filter.AuthenticationFilter$ExcludeDefinition">
+                <bean class="com.lumos.web.common.filter.AuthenticationFilter$ExcludeDefinition">
+                    <property name="endPoint" value="/v1/identity/tokens"/>
+                    <property name="httpMethods">
+                        <list>
+                            <value>GET</value>
+                            <value>POST</value>
+                            <value>PUT</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.lumos.web.common.filter.AuthenticationFilter$ExcludeDefinition">
+                    <property name="endPoint" value="/v1/system/status"/>
+                    <property name="httpMethods">
+                        <list>
+                            <value>GET</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.lumos.web.common.filter.AuthenticationFilter$ExcludeDefinition">
+                    <property name="endPoint" value="/v1/system/version"/>
+                    <property name="httpMethods">
+                        <list>
+                            <value>GET</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

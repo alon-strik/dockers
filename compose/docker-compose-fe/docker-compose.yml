@@ -1,0 +1,50 @@
+version: "2"
+
+services:
+
+    website:
+      build: .  # Buld using in folder DockerFile
+      volumes:
+       - .:/code       # mount current folder to /code folder on destination
+       - ./www/html/admin/:/var/www/html/admin/:rw    # Reference from current directory to destination dicretory
+
+    # db:
+    #  image: "mysql:5"  # use docker image prepulled
+    #  volumes:
+    #     - ./mysql:/etc/mysql/conf.d
+    #  environment:
+    #     MYSQL_ROOT_PASSWORD: Admin11!
+    #     MYSQL_DATABASE: lms
+    #
+    # backend:
+    #   build: ./backend
+    #   links:
+    #     - db
+    #   volumes:
+    #    - .:/code       # mount current folder to /code folder on destination
+    #   #  - ./www/html/admin/:/var/www/html/admin/:rw    # Reference from current directory to destination dicretory
+    #
+    #
+    #
+    #
+    #
+    #
+
+
+#    haproxy:
+#      build: ./haproxy  # Buld using in folder DockerFile
+#      #build: .  # Buld using in folder DockerFile
+#      image: haproxy
+#      image: hypriot/rpi-haproxy
+#      volumes:
+#        #- ./haproxy:/haproxy-override
+#        - ./haproxy:/usr/local/etc/haproxy/haproxy.cfg
+#      links:
+#       - web1
+#       - web2
+#      ports:
+#       - "80:80"
+#       - "70:70"
+#      expose:
+#       - "80"
+#       - "70"
